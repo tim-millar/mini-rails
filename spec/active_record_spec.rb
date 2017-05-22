@@ -9,7 +9,7 @@ module ActiveRecord
   describe Base do
     let!(:establish_connection) {
       Post.establish_connection(
-        database: "#{__dir__}/muffin_blog/db/development.sqlite"
+        database: "#{__dir__}/muffin_blog/db/development.sqlite3"
       )
     }
 
@@ -29,7 +29,7 @@ module ActiveRecord
       let(:post) { Post.find(1) }
 
       it 'returns an instance of the Post class' do
-        expect(post.class).to eql(Post)
+        expect(post).to be_an_instance_of(Post)
       end
       
       it 'has the correct id' do
@@ -37,13 +37,26 @@ module ActiveRecord
       end
 
       it 'has the correct title' do
-        expect(post.title).to eql('My first post')
+        expect(post.title).to eql('Blueberry Muffins')
       end
     end
 
     describe '.execute' do
-      # rows = Post.connection.execute('SELECT * FROM posts')
-      # p rows
+      let(:rows) { Post.connection.execute('SELECT * FROM posts') }
+      let(:column_names) { [:id, :title, :body, :created_at, :updated_at] }
+      let(:row) { rows.first }
+
+      it 'returns an array of rows from the posts table' do
+        expect(rows).to be_an_instance_of(Array)
+      end
+
+      it 'represents rows as hashes' do
+        expect(row).to be_an_instance_of(Hash)
+      end
+
+      it 'returns all the table column names' do
+        expect(row.keys).to eql(column_names)
+      end
     end
   end
 end

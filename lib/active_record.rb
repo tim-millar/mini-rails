@@ -17,7 +17,6 @@ module ActiveRecord
 
     def self.establish_connection(options)
       @@connection = ConnectionAdapter::SqliteAdapter.new(options[:database])
-      puts @@connection.inspect
     end
 
     def self.connection
