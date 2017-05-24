@@ -31,7 +31,7 @@ module ActiveRecord
       it 'returns an instance of the Post class' do
         expect(post).to be_an_instance_of(Post)
       end
-      
+
       it 'has the correct id' do
         expect(post.id).to eql(1)
       end
@@ -56,6 +56,35 @@ module ActiveRecord
 
       it 'returns all the table column names' do
         expect(row.keys).to eql(column_names)
+      end
+    end
+
+    describe '.all' do
+      let(:post) { Post.all.first }
+
+      it 'returns an instance of the Post class' do
+        expect(post).to be_an_instance_of(Post)
+      end
+
+      it 'has the correct id' do
+        expect(post.id).to eql(1)
+      end
+
+      it 'has the correct title' do
+        expect(post.title).to eql('Blueberry Muffins')
+      end
+    end
+
+    describe '.where' do
+      let(:relation) { Post.where('id = 2').where('title IS NOT NULL') }
+      let(:post) { relation.first }
+
+      it 'performs the equivalent sql query' do
+        expect(relation.to_sql).to eql('SELECT * FROM posts WHERE id = 2 AND title IS NOT NULL')
+      end
+
+      it 'retrieves the correct post from the table' do
+        expect(post.id).to eql(2)
       end
     end
   end
