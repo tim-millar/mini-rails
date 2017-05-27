@@ -2,9 +2,6 @@ require 'spec_helper'
 
 require 'active_record'
 
-require 'muffin_blog/app/models/application_record'
-require 'muffin_blog/app/models/post'
-
 module ActiveRecord
   describe Base do
     let!(:establish_connection) {

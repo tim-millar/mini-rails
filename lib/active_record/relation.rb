@@ -2,7 +2,8 @@ module ActiveRecord
   class Relation
     extend Forwardable
 
-    def_delegators :records, :[], :first, :each
+    def_delegators :records,
+       :to_a, :first, :last, :each
 
     def initialize(klass)
       @klass = klass
@@ -30,14 +31,6 @@ module ActiveRecord
 
     def records
       @records ||= @klass.find_by_sql(to_sql)
-    end
-
-    def first
-      records.first
-    end
-
-    def each(&block)
-      records.each(&block)
     end
   end
 end
