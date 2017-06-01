@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-require 'active_record'
-
 module ActiveRecord
   describe Base do
     let!(:establish_connection) {

@@ -1,13 +1,7 @@
 require 'spec_helper'
 
-require 'active_support'
-require 'active_record'
 
 describe ActiveSupport do
-  let!(:autoload_paths) {
-    ActiveSupport::Dependencies.autoload_paths=(Dir["#{__dir__}/muffin_blog/app/*"])
-  }
-
   describe '.search_for_file' do
     let(:file) { ActiveSupport::Dependencies.search_for_file('application_controller') }
 
