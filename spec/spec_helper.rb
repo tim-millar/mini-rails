@@ -1,4 +1,5 @@
 require "bundler/setup"
+require 'rack/mock'
 
 require_relative 'muffin_blog/config/environment'
 
