@@ -5,6 +5,7 @@ class PostsController < ApplicationController
     @posts = Post.all
 
     response.write('<h1>The Muffin Blog</h2>')
+
     @posts.each do |post|
       response.write("<h2>#{post.title}</h2>")
     end

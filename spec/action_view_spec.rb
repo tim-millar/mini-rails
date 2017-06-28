@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+class TestController < ActionController::Base
+  def index
+    @var = 'var value'
+  end
+end
+
 module ActionView
   describe Template do
     describe '#render_template' do
@@ -25,7 +31,7 @@ module ActionView
         end
       end
 
-       context 'with yield' do
+      context 'with yield' do
         subject(:template) {
           Template.new('<p><%= yield %></p>', 'test_render_with_yield')
         }
@@ -61,6 +67,29 @@ module ActionView
         it 'caches templates' do
           expect(template_one).to eql(template_two)
         end
+      end
+    end
+
+    describe 'view assigns' do
+      let(:controller) { TestController.new }
+
+      it 'assigns instance variables in the controller' do
+        controller.index
+
+        expect(controller.view_assigns).to eql({ 'var' => 'var value' })
+      end
+    end
+
+    describe '#render' do
+      let(:request) { Rack::MockRequest.new(Rails.application) }
+      let(:response) { request.get('/posts/show?id=1') }
+
+      it 'populates the response with the view' do
+        expect(response.body).to include('<h1>Blueberry Muffins</h1>')
+      end
+
+      it 'renders the view within the application layout' do
+        expect(response.body).to include('<html>')
       end
     end
   end
